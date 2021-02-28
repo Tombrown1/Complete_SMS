@@ -23,7 +23,14 @@
      
     }
 
+    if(isset($_GET['delete'])){
+        $sponsor_id = $_GET['sponsor_id'];
+        $delete_sponsor = delete_sponsor_by_id($mysqli, $sponsor_id);
 
+        if($delete_sponsor){
+            header("Location: add_sponsor.php");
+        }
+    }
 
    
 ?>
@@ -37,19 +44,77 @@
     <title>Add Sponsor</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
 </head>
-<body>
-    
+<body>    
 <?php
-        include_once '../navbars/menu.php'; 
-    ?>      
+        include_once '../navbars/menu.php';
+        if(isset($_GET['update'])){
+            $operation_msg = "EDIT SPONSOR";
+        }else {
+            $operation_msg = "ADD SPONSOR";
+        }
+    ?>
+          
           <main class="container">
             <div class="welcome text-center py-5 px-3"> <br>
-            <h4 align="center">Add Sponsor</h4> <br>           
+            <h4 align="center"><?php echo $operation_msg; ?></h4> <br>           
             </div>             
         </main> 
         <div class="container">
             <div class="col-md-6">
-                
+            <?php
+                if(isset($_GET['update'])){
+                $sponsor_id = $_GET['sponsor_id'];
+                $result = get_sponsor_by_id($mysqli, $sponsor_id);
+                $sponsor_row = mysqli_fetch_assoc($result);
+            ?>
+            <!-- //Edit Sponsor Section -->
+            <form action="edit_sponsor.php" method="post">
+            <div class="form-group">
+                <label for="sponsor_name">Sponsor Name</label>
+                <input type="text" name="sponsor_name" value="<?php echo $sponsor_row['sponsor_name'] ?>" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="std_id">Student</label>
+                <select class="form-control" name="std_id" id="">
+                    <option value="">select student</option>
+                    <?php
+                        $student = get_all_student($mysqli);
+                        if(mysqli_num_rows($student)){
+                            while($rows = mysqli_fetch_assoc($student)){
+                                $std_id = $rows['std_id'];
+                                $std_name = $rows['std_name'];
+                    ?>
+                        <option value="<?php echo $std_id; ?>" <?php if($std_id == $rows['std_id']){ echo "selected"; } ?> ><?php echo $std_name; ?></option>
+                    <?php
+                            }
+                        }
+                    ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="relationship">Relationship</label>
+                <input type="text" name="relationship" value="<?php echo $sponsor_row['relationship'] ?>" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="sponsor_email">Email</label>
+                <input type="email" name="sponsor_email" value="<?php echo $sponsor_row['sponsor_email'] ?>" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="sponsor_phone">Phone No</label>
+                <input type="text" name="sponsor_phone" value="<?php echo $sponsor_row['sponsor_phone'] ?>" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="sponsor_address">Address</label>
+                <input type="text" name="sponsor_address" value="<?php echo $sponsor_row['sponsor_address'] ?>" class="form-control">
+            </div>
+            <button type="submit" name="update" class="btn btn-primary">Submit</button>
+            </form>
+            <?php
+        }else{
+            ?>
+            
+            
+                    <!-- //Add Sponsor Section -->
             <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
             <div class="form-group">
                 <label for="sponsor_name">Sponsor Name</label>
@@ -91,6 +156,12 @@
             </div>
             <button type="submit" name="submit" class="btn btn-primary">Submit</button>
             </form>
+           <?php 
+        }
+        ?>
+        
+                
+            
             </div>
             <div class="col-md-6"></div>
         </div>
@@ -136,8 +207,8 @@
                         <td><?php echo $rows['sponsor_email'] ?></td>
                         <td><?php echo $rows['sponsor_phone'] ?></td>
                         <td><?php echo $rows['sponsor_address'] ?></td>
-                        <td><a href="#" class="btn btn-info">Edit</a></td>
-                        <td><a href="#" class="btn btn-danger">Delete</a></td>
+                        <td><a href="add_sponsor.php?update=1&sponsor_id=<?php echo $rows['sponsor_id'] ?>" class="btn btn-info">Edit</a></td>
+                        <td><a href="add_sponsor.php?delete=1&sponsor_id=<?php echo $rows['sponsor_id'];?>" class="btn btn-danger">Delete</a></td>
                     </tr>
                     <?php
                     $cnt ++;

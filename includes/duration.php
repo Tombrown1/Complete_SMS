@@ -16,4 +16,10 @@
         $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
         return $result;
     }
+
+    function check_duration($mysqli,$duration_name){
+        $query = "SELECT * FROM duration WHERE duration_name = '".$duration_name."'";
+        $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
+        return $result;
+    }
 ?>

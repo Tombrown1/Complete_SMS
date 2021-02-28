@@ -24,15 +24,22 @@
         return $result;
     }
 
-    function update_payment($mysqli, $student_id, $course_id, $duration_id, $payment_method, $payment_date, $amount, $payment_id){
-        $query = "UPDATE payment SET student_id= '$student_id', course_id = '$course_id', duration_id = '$duration_id', payment_method = '$payment_method',
-                        payment_date = '$payment_date', amount= '$amount' WHERE payment_id = $payment_id";
+    function update_payment_by_id($mysqli, $payment_id, $std_id, $course_id, $duration_id, $pay_type_id, $payment_date, $amount){
+        $query = "UPDATE payment SET std_id ='".$std_id."', course_id ='".$course_id."', duration_id ='".$duration_id."', pay_type_id ='".$pay_type_id."', payment_date ='".$payment_date."', amount='".$amount."' WHERE payment_id =".$payment_id;
         $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
+        header("Location: add_payment.php");
+
     }
 
-    function delete_payment($mysqli, $payment_id){
+    function delete_payment_by_id($mysqli, $payment_id){
         $query = "DELETE FROM payment WHERE payment_id = $payment_id";
         $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
         return true;
+    }
+
+    function check_delete_payment($mysqli, $payment_id){
+        $query = "SELECT * payment WHERE payment_id = $payment_id";
+        $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
+        return $result;
     }
 ?>

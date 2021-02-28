@@ -24,6 +24,7 @@
 
     function update_sponsor($mysqli, $sponsor_name, $std_id, $relationship, $sponsor_email, $sponsor_phone, $sponsor_address,$sponsor_id){
         $query = "UPDATE sponsor SET sponsor_name ='$sponsor_name', std_id='$std_id', relationship= '$relationship', sponsor_email = '$sponsor_email', sponsor_phone = '$sponsor_phone', sponsor_address = '$sponsor_address' WHERE sponsor_id = $sponsor_id ";
+        $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
     }
 
     function delete_sponsor_by_id($mysqli, $sponsor_id){

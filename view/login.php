@@ -48,7 +48,7 @@
         include_once '../navbars/menu.php';
     ?>
         <div class="jumbotron">
-             <h1 align="center">Login Here</h1>
+             <h1 align="center">Admin Login</h1>
              <!-- <ul>
                 <li><a href="home.php">Home</a></li>
                 <li><a href="add_course.php">Add Course</a></li>
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-6"></div>
         </div>
-        <br><br>
+        <br><br><br><br><br><br><br>
        
         <?php
     include_once '../navbars/footer.php';

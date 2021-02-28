@@ -17,7 +17,7 @@
     include_once '../includes/duration.php';
     // include_once '../includes/payment_type.php';
      include_once '../includes/payment.php';
-
+     include_once '../includes/student_courses.php';
     
     if(isset($_GET['view'])){
         $std_id = $_GET['std_id'];
@@ -80,48 +80,6 @@
             opacity: 1;
         }
     </style>
-    <!-- <script>
-        $(document).ready(function () {
-            $imgSrc = $('#imgProfile').attr('src');
-            function readURL(input) {
-
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        $('#imgProfile').attr('src', e.target.result);
-                    };
-
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-            $('#btnChangePicture').on('click', function () {
-                // document.getElementById('profilePicture').click();
-                if (!$('#btnChangePicture').hasClass('changing')) {
-                    $('#profilePicture').click();
-                }
-                else {
-                    // change
-                }
-            });
-            $('#profilePicture').on('change', function () {
-                readURL(this);
-                $('#btnChangePicture').addClass('changing');
-                $('#btnChangePicture').attr('value', 'Confirm');
-                $('#btnDiscard').removeClass('d-none');
-                // $('#imgProfile').attr('src', '');
-            });
-            $('#btnDiscard').on('click', function () {
-                // if ($('#btnDiscard').hasClass('d-none')) {
-                $('#btnChangePicture').removeClass('changing');
-                $('#btnChangePicture').attr('value', 'Change');
-                $('#btnDiscard').addClass('d-none');
-                $('#imgProfile').attr('src', $imgSrc);
-                $('#profilePicture').val('');
-                // }
-            });
-        });
-    </script> -->
 </head>
 <body>
     <?php
@@ -129,8 +87,10 @@
     ?>      
           <main class="container">
             <div class="welcome text-center py-5 px-3"> <br>
-            <h4 align="center">Student Profile</h4> <br>           
-            </div>             
+            <h4 align="center">Student Profile</h4> <br> 
+            <p class="float-left"><a href="students.php" class="btn btn-primary" role="button">Back</a></p>          
+            </div> 
+                        
         </main>   
     
             <div class="container">
@@ -151,7 +111,7 @@
 
                                       $profile_image = $student_rows['image'];
                                       if($profile_image){
-                                          echo "<img src='images/".$profile_image."'/>";
+                                          echo "<img src='../images/".$profile_image."'/>";
                                       }
                                     
                                     ?>
@@ -227,15 +187,35 @@
                                                 <label style="font-weight:bold;">Course</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <?php 
-                                                $result = get_course_by_id($mysqli, $course_id = $student_rows['course_id']);
-                                                if(mysqli_num_rows($result) > 0){
-                                                    while($rows = mysqli_fetch_assoc($result)){
-                                                        $course_name = $rows['course_name'];
+                                        <?php 
+                                            $result = get_all_course($mysqli);
+                                            if(mysqli_num_rows($result)>0){
+                                                while($coz_row = mysqli_fetch_array($result)){
+                                                    $course_id = $coz_row['course_id'];
+                                                    $course_name = $coz_row['course_name'];
+
+                                                    //Check for courses selected by student and fetch them from the course loop.
+                                                    $sel_coz_result = get_student_courses_by_std_id($mysqli, $new_stud_id = $student_rows['std_id']);
+                                                    $check_course = false;
+                                                    if(mysqli_num_rows($sel_coz_result)>0){
+                                                        while($chk_coz_row = mysqli_fetch_array($sel_coz_result)){
+                                                            $chk_course_id = $chk_coz_row['course_id'];
+
+                                                            if($chk_course_id == $course_id){
+                                                                $check_course = true;
+                                                                break;
+                                                            }
+                                                        }
                                                     }
+
+                                                    if($course_id == $check_course){
+                                                        echo $course_name.",";
+                                                    }
+                                            ?>
+                                            <?php
                                                 }
-                                                echo $course_name;
-                                                ?>
+                                            }
+                                        ?>
                                             </div>
                                         </div>
                                         <hr />

@@ -39,30 +39,6 @@
         }
     
 
-    // if(isset($_POST['submit'])){
-    //     if(empty($_POST['name'])){
-    //         $error['error'] = true;
-    //     }else{
-    //       $name = $_POST['name'];
-    //     }
-    //     if(empty($_POST['email'])){
-    //         $error['error'] = true;
-    //     }else{
-    //         $email = $_POST['email'];
-    //     }
-    //     if(empty($_POST['password'])){
-    //         $error['error'] = true;
-    //     }else{
-    //         $password = $_POST['password'];
-    //     }
-    //     // $name      = $_POST['name'];
-    //     // $email     = $_POST['email'];        
-    //     // $password  = $_POST['password'];
-
-    //     insert_users($mysqli, $name, $email, md5($password));
-     
-    // }
-
 
 
    
@@ -77,30 +53,7 @@
     <title>Add Admin</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
 
-    <!-- <script src="../assets/js/validate.js"></script> -->
-    <!-- <script type="text/javascript" >
-        const name = document.getElementById('name');
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
-        const form = document.getElementById('form');
-        const errorElement = document.getElementById('error');  
-
-        form.addEventListener('submit', (e) => {
-            let messages = []
-            if(name.value === "" || name.value == null){
-                messages.push("Name is Required");
-            }
-
-            if(email.value ==="" || email.value == null){
-                messages.push("Email is required");
-            }
-
-            if(message.length > 0){
-                e.preventDefault();
-                errorElement.InnerText = messages.join(', ');
-            }
-        } );
-    </script> -->
+  
 
 </head>
 <body>
@@ -109,7 +62,7 @@
     ?>
        
         <div class="jumbotron">
-             <h1 align="center">Sign up</h1>
+             <h1 align="center">Admin Signup</h1>
         </div>
    <div class="container">
        <div id="error"></div>
@@ -134,7 +87,7 @@
             </div>
             <div class="col-md-6"></div>
         </div>
-        <br><br>
+        <br>
         <?php
     include_once '../navbars/footer.php';
 ?>

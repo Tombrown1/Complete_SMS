@@ -26,6 +26,14 @@
         return $result;
     }
 
+    function get_all_course_by_std_id($mysqli, $std_id){
+        $query = "SELECT * FROM course WHERE std_id =".$std_id;
+        $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
+        return $result;
+    }
+
+    // function get_stud_courses_by_std_id($mysqli, $std_id)
+
     function update_course($mysqli, $course_name, $std_id, $duration_id, $course_id){
         //global $mysqli;
         $query = "UPDATE course SET course_name = '$course_name', std_id = '$std_id', duration='$duration' 
@@ -38,6 +46,12 @@
         $query = "DELETE FROM course WHERE course_id =" . $course_id;
         $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
         return true;
+    }
+
+    function check_course($mysqli,$course_name){
+        $query = "SELECT * FROM course WHERE course_name = '".$course_name."'";
+        $result = mysqli_query($mysqli, $query) or die(mysqli_error($mysqli));
+        return $result;
     }
 
 ?>

@@ -4,9 +4,9 @@
         session_destroy();
         unset($_SESSION['user_id']);
 
-       header("Location: login.php");
+       header("Location: home1.php");
     }else{
-        header("Location: login.php");
+        header("Location: home1.php");
     }
 
 
